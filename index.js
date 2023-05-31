@@ -6,7 +6,21 @@ const cors = require('cors');
 const port = process.env.PORT || 5000
 
 // middleware
-app.use(cors());
+// app.use(cors());
+const corsConfig = {
+  origin :'*',
+  credentials:true,
+  method: [
+    "GET",
+    "POST",
+    "PUT",
+    "PATCH",
+    "DELETE",
+    "OPTIONS"
+    ]
+}
+app.use(cors(corsConfig));
+app.options("",cors(corsConfig))
 app.use(express.json());
 //bossUser
 //b67VEwdNjg3Szl1B
@@ -25,7 +39,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    client.connect();
 
     const menuCollection = client.db("bistroDb").collection('menu');
     const reviewsCollection = client.db("bistroDb").collection('reviews');
